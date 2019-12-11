@@ -15,7 +15,6 @@ const TableHead = () => {
 
 const TableBody = (props) => {
 	const linhas = props.autores.map((linha) => {
-		console.log(linha.id);
 		return (
 			<tr key={linha.id+Math.random() * 20000}>
 				<td>{linha.nome}</td>
