@@ -14,13 +14,14 @@ const TableHead = () => {
 }
 
 const TableBody = (props) => {
-	const linhas = props.autores.map((linha, index) => {
+	const linhas = props.autores.map((linha) => {
+		console.log(linha.id);
 		return (
-			<tr key={index}>
+			<tr key={linha.id+Math.random() * 20000}>
 				<td>{linha.nome}</td>
 				<td>{linha.livro}</td>
 				<td>{linha.preco}</td>
-				<td><button className="waves-effect waves-light btn-small #33691e light-green darken-4" onClick={() => { props.removeAutor(index) }} >Remover</button></td>
+				<td><button className="waves-effect waves-light btn-small #33691e light-green darken-4" onClick={() => { props.removeAutor(linha.id) }} >Remover</button></td>
 			</tr>
 		);
 	});

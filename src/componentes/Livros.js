@@ -1,6 +1,9 @@
 import React, { Component, Fragment } from 'react';
 import Header from './Header';
+import PopUp from '../Validator/PopUp';
 import DataTable from './DataTable';
+import ApiService from '../ApiService';
+
 
 
 class Livros extends Component {
@@ -8,36 +11,25 @@ class Livros extends Component {
         super(props);
 
         this.state = {
-            autores: [
-                {
-                  nome: 'Paulo',
-                  livro: 'React',
-                  preco: '1000'
-                },
-                {
-                  nome: 'Daniel',
-                  livro: 'Java',
-                  preco: '99'
-                },
-                {
-                  nome: 'Marcos',
-                  livro: 'Design',
-                  preco: '150'
-                },
-                {
-                  nome: 'Bruno',
-                  livro: 'DevOps',
-                  preco: '100'
-                },
-                {
-                  nome: 'Nico',
-                  livro: 'Java',
-                  preco: '9999'
-                }
+            livros: [
+                
               ],
               titulo: 'Livros'
         };
-    }
+	}
+	
+	componentDidMount(){
+		ApiService.ListaLivros()
+		.then(res => ApiService.TrataErros(res))
+		.then(res => {
+			if (res.message === 'success') {
+				this.setState({livros: [...this.state.livros, ...res.data]})
+			}
+		})
+		.catch(err => PopUp.exibeMensagem('error', "Erro na comunicação com a API ao listar os Livros!"))
+
+	}
+
 
     render() {
         return (
@@ -45,7 +37,7 @@ class Livros extends Component {
                 <Header />
                 <div className='container'>
                     <h1>Página de Livros</h1>
-                    <DataTable dados={this.state.autores} titulo={this.state.titulo} colunas={['livro']}/>
+                    <DataTable dados={this.state.livros} titulo={this.state.titulo} colunas={['livro']}/>
                 </div>
             </Fragment>
         );
